@@ -5,26 +5,29 @@ class LockTracker:
         self.zero_ct = 0
 
     def move_dial(self, move: str) -> None:
-        total_move = int(move[1:]) % 100
-        print(f"{total_move} from {move}")
+        print(f"{move}")
+        start_zero = self.cur_pos == 0
+        net_move = int(move[1:]) % 100
+        pass_zero = int(move[1:]) // 100
+        self.zero_ct += pass_zero
         if move[0] == "L":
-            self.cur_pos -= total_move
+            self.cur_pos -= net_move
         else:
-            self.cur_pos += total_move
-        print(f"{self.cur_pos} curpos after move")
-        self._validate_dial()
-        print(f"{self.cur_pos} curpos after validation")
-        self._check_zero()
+            self.cur_pos += net_move
+        self._validate_dial(start_zero)
 
-    def _validate_dial(self):
-        if self.cur_pos < 0:
-            self.cur_pos = 100 + self.cur_pos
-        elif self.cur_pos > 99:
-            self.cur_pos = self.cur_pos % 100
 
-    def _check_zero(self):
+    def _validate_dial(self, start_zero: bool):
         if self.cur_pos == 0:
             self.zero_ct += 1
+        elif self.cur_pos < 0:
+            self.cur_pos = 100 + self.cur_pos
+            if not start_zero:
+                self.zero_ct += 1
+        elif self.cur_pos > 99:
+            self.cur_pos = self.cur_pos % 100
+            self.zero_ct += 1
+
 
     def get_zero(self):
         return self.zero_ct
