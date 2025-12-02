@@ -5,7 +5,6 @@ class LockTracker:
         self.zero_ct = 0
 
     def move_dial(self, move: str) -> None:
-        print(f"{move}")
         start_zero = self.cur_pos == 0
         net_move = int(move[1:]) % 100
         pass_zero = int(move[1:]) // 100
