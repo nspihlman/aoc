@@ -25,6 +25,11 @@ def add_new_interval(val: tuple[int, int], intervals: list[tuple[int, int]]) -> 
     new_intervals.append(val)
     return sorted(new_intervals, key=lambda x: x[0])
 
+def sum_intervals(intervals: list[tuple[int, int]]) -> int:
+    total = 0
+    for item in intervals:
+        total += item[1] - item[0] + 1
+    return total
 
 def main():
     intervals = []
@@ -39,11 +44,9 @@ def main():
                     continue
                 if valid_ingredient(int(line.rstrip()), intervals):
                     fresh += 1
-    print(fresh)
+    print(sum_intervals(intervals)) # part 2
+    print(fresh) # part 1
 
-
-# need to first construct a list of intervals, merging when necessary
-# then just go through the list of numbers and find what works.
 
 if __name__ == '__main__':
     main()
