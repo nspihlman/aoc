@@ -18,6 +18,11 @@ def connect_points(p: Point, q: Point):
             point.connected.append(q)
         if point not in q.connected and point != q:
             q.connected.append(point)
+    for point in q.connected:
+        if p not in point.connected and p != point:
+            point.connected.append(p)
+        if point not in p.connected and point != p:
+            p.connected.append(point)
     p.connected.append(q)
     q.connected.append(p)
 
@@ -66,16 +71,16 @@ def main():
             distances.append((calculate_distance(p, q), p, q))
     distances = sorted(distances, key=lambda x: x[0])
     total_ops = 10
-    cur_op = 0
+    ops_done = 0
     d_place = 0
-    while cur_op < total_ops:
-        d = distances[d_place]
+    while ops_done < total_ops:
+        d = distances[ops_done]
         if are_connected(d[1], d[2]) or are_connected(d[2], d[1]):
-            d_place += 1
+            ops_done += 1
             continue
         else:
             connect_points(d[1], d[2])
-            cur_op += 1
+            ops_done += 1
             d_place += 1
     print(multiply_circuits(all_points))
 
